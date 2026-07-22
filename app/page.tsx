@@ -1,27 +1,42 @@
 import { Lifeline } from "@/components/lifeline"
+import { RabbitLogo } from "@/components/rabbit-logo"
 import { evilrabbitLifeline } from "@/lib/evilrabbit"
 
 export default function Home() {
   return (
     <div className="flex h-dvh flex-col overflow-hidden bg-white text-black antialiased transition-colors duration-300 dark:bg-black dark:text-white">
-      <header
-        data-site-nav-inner
-        className="fixed inset-x-0 top-0 z-30 flex h-16 items-center justify-between bg-white/80 px-6 backdrop-blur-sm transition-colors duration-300 dark:bg-black/80"
-      >
-        <span data-site-nav-logo className="text-[15px] font-medium leading-5">
-          Evil Rabbit — Lifeline
-        </span>
-        <nav className="flex items-center gap-4 text-[13px] text-zinc-500">
-          <a
-            href="https://github.com/evilrabbit/lifeline"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="transition-colors hover:text-black dark:hover:text-white"
+      {/* Same shell as evilrabbit.com: a fixed nav whose inner container
+          is centered and capped at max-w-5xl — the timeline aligns its
+          start to the logo and its end to the container's right edge. */}
+      <nav className="fixed inset-x-0 top-0 z-50">
+        <div className="border-b border-black/10 bg-white/80 backdrop-blur-xl transition-colors duration-300 dark:border-white/10 dark:bg-black/80">
+          <div
+            data-site-nav-inner
+            className="mx-auto flex h-16 max-w-5xl items-center justify-between px-6"
           >
-            GitHub
-          </a>
-        </nav>
-      </header>
+            <a
+              href="/"
+              data-site-nav-logo
+              aria-label="Evil Rabbit — Lifeline"
+              className="text-black transition-[color,opacity] duration-300 hover:opacity-70 dark:text-white"
+            >
+              <RabbitLogo className="h-6 w-6" />
+            </a>
+
+            <div className="flex items-center gap-8">
+              <a
+                href="https://github.com/evilrabbit/lifeline"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-zinc-500 transition-colors duration-300 hover:text-black dark:hover:text-white"
+              >
+                GitHub
+              </a>
+            </div>
+          </div>
+        </div>
+      </nav>
+
       <main className="flex-1 min-h-0 overflow-y-auto pt-16 md:overflow-hidden">
         <Lifeline
           markers={evilrabbitLifeline.markers}
@@ -30,11 +45,16 @@ export default function Home() {
           className="h-full"
         />
       </main>
-      <footer className="flex h-12 shrink-0 items-center justify-between px-6 text-[12px] text-zinc-400">
-        <span className="hidden md:block">
-          npx shadcn@latest add https://evilrabbit.com/r/lifeline.json
-        </span>
-        <span>MIT</span>
+
+      <footer className="shrink-0 border-t border-black/10 bg-white/95 transition-colors duration-300 dark:border-white/10 dark:bg-black/95">
+        <div className="mx-auto flex h-16 max-w-5xl items-center justify-between gap-6 px-6">
+          <p className="truncate text-sm text-zinc-500 transition-colors duration-300 dark:text-zinc-600">
+            npx shadcn@latest add https://evilrabbit.com/r/lifeline.json
+          </p>
+          <p className="text-sm text-zinc-500 transition-colors duration-300 dark:text-zinc-600">
+            © 2026
+          </p>
+        </div>
       </footer>
     </div>
   )
