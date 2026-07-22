@@ -2,7 +2,7 @@ import type {
   LifelineEvent,
   LifelineLegendItem,
   LifelineMarker,
-} from "@/components/lifeline"
+} from "@/components/lifeline/types"
 
 export const LIFELINE_CURRENT_YEAR = 2026
 
