@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "journey",
+  "title": "Journey timeline",
+  "description": "A bounded run, day by day — tournament, tour, launch. Starter data with day-based labels.",
+  "registryDependencies": [
+    "https://evilrabbit.com/r/lifeline.json"
+  ],
+  "files": [
+    {
+      "path": "lib/lifeline-journey.ts",
+      "content": "import { defineLifeline, type LifelineMilestones } from \"@/lib/lifeline-data\"\n\n/**\n * Journey timeline starter — a bounded run with a beginning, an arc,\n * and an end: a tournament, a tour, a launch, a sabbatical.\n *\n * Instead of years, markers are days: `birthYear`/`endYear` become\n * day 1..N, and the label helpers below turn day numbers into\n * calendar labels. The `age` field carries stage labels (\"W1\", \"F\")\n * instead of an age.\n */\nconst JOURNEY_START_UTC = Date.UTC(2026, 5, 1) // June 1\nconst FIRST_DAY = 1\nconst LAST_DAY = 39\n\nfunction dayLabel(day: number) {\n  const date = new Date(JOURNEY_START_UTC + (day - 1) * 86_400_000)\n  const month = date.toLocaleString(\"en-US\", { month: \"short\", timeZone: \"UTC\" })\n  const dayOfMonth = date.getUTCDate()\n  // Spell the month out on day one and at each month turn.\n  if (day === FIRST_DAY || dayOfMonth === 1) return `${month} ${dayOfMonth}`\n  return `${dayOfMonth}`\n}\n\nfunction fullLabel(day: number) {\n  const date = new Date(JOURNEY_START_UTC + (day - 1) * 86_400_000)\n  const month = date.toLocaleString(\"en-US\", { month: \"short\", timeZone: \"UTC\" })\n  return `${month} ${date.getUTCDate()}`\n}\n\nconst milestones: LifelineMilestones = {\n  1: {\n    id: \"departure\",\n    age: \"\",\n    events: [\"It began, as these things do, with a one-way ticket.\"],\n  },\n  6: {\n    id: \"first-stop\",\n    age: \"W1\",\n    events: [\n      \"First stop. Nothing went to plan, which was the plan.\",\n      // Badges are small images above a day's events — flags, crests:\n      // badges: [{ src: \"/flags/somewhere.svg\", alt: \"Somewhere\" }],\n    ],\n  },\n  14: {\n    id: \"the-turn\",\n    age: \"W2\",\n    events: [\n      {\n        text: \"The day everything turned.\",\n        // image: { src: \"/moments/the-turn.jpg\", alt: \"The turn\" },\n      },\n    ],\n  },\n  23: {\n    id: \"the-low\",\n    age: \"W3\",\n    events: [\"The low point. Every journey has one; this was ours.\"],\n  },\n  31: {\n    id: \"the-comeback\",\n    age: \"W4\",\n    events: [\n      \"The comeback, against every expectation including our own.\",\n      // photos: [{ src: \"/moments/comeback.jpg\", alt: \"That night\" }],\n    ],\n  },\n  39: {\n    id: \"the-end\",\n    age: \"F\",\n    events: [{ text: \"The last day. 🎆\", effect: \"fireworks\" }],\n  },\n}\n\nconst record = defineLifeline({\n  slug: \"journey\",\n  name: \"The Journey\",\n  birthYear: FIRST_DAY,\n  endYear: LAST_DAY,\n  description: \"Thirty-nine days, day by day.\",\n  milestones,\n})\n\nexport const journeyLifeline = {\n  ...record,\n  markers: record.markers.map((marker) => ({\n    ...marker,\n    // Days with events get the full \"Jun 6\" label; quiet days just\n    // the day number — and no age unless a stage label is set.\n    label: marker.events.length > 0 ? fullLabel(marker.year) : dayLabel(marker.year),\n    age: marker.age ?? \"\",\n  })),\n}\n",
+      "type": "registry:lib",
+      "target": "lib/lifeline-journey.ts"
+    }
+  ],
+  "type": "registry:block"
+}

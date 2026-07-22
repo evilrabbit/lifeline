@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "personal",
+  "title": "Personal timeline",
+  "description": "A life, year by year — starter data for a personal Lifeline.",
+  "registryDependencies": [
+    "https://evilrabbit.com/r/lifeline.json"
+  ],
+  "files": [
+    {
+      "path": "lib/lifeline-personal.ts",
+      "content": "import { defineLifeline } from \"@/lib/lifeline-data\"\n\n/**\n * Personal timeline starter — a life, year by year.\n *\n * Swap the milestones for your own. Anything you leave out of a year\n * still renders as a tick on the rail, so the empty years carry the\n * shape of a life too. Omit `endYear` while you're alive.\n */\nexport const personalLifeline = defineLifeline({\n  slug: \"me\",\n  name: \"Your Name\",\n  birthYear: 1990,\n  description: \"A life, year by year.\",\n  milestones: {\n    1990: {\n      id: \"born\",\n      events: [\"Born somewhere worth mentioning.\"],\n    },\n    2008: {\n      id: \"school\",\n      events: [\n        \"Finished school. Started something else.\",\n        // Portraits along the rail — mentors get a role and a color:\n        //\n        // mentors: [\n        //   {\n        //     name: \"Someone Formative\",\n        //     role: \"Teacher\",\n        //     color: \"#3E63DD\",\n        //     photo: \"/images/people/someone.png\",\n        //   },\n        // ],\n      ],\n    },\n    2014: {\n      id: \"first-job\",\n      // Inline organization marks — map ids to icons in\n      // components/lifeline/company-icon.tsx (unmapped ids render\n      // the name's initial).\n      companies: [{ id: \"acme\", name: \"Acme\" }],\n      events: [\n        [\n          { type: \"text\", value: \"Joined \" },\n          { type: \"link\", value: \"Acme\", href: \"https://example.com\" },\n          { type: \"text\", value: \" and shipped the first real thing.\" },\n        ],\n      ],\n    },\n    2019: {\n      id: \"the-move\",\n      events: [\n        {\n          text: \"Moved across the world.\",\n          // A hover image (desktop) / tap-to-expand (mobile); add\n          // `video` for a muted looping clip:\n          // image: { src: \"/moments/the-move.jpg\", alt: \"The move\" },\n        },\n        // People you met — photo-only portraits under the rail:\n        //\n        // met: [{ name: \"A Hero\", photo: \"/images/people/hero.png\" }],\n      ],\n    },\n    2023: {\n      id: \"the-project\",\n      events: [\"Started the project everything since has grown from.\"],\n      // Always-visible floating cards, tilted like a notebook —\n      // draggable, tap to expand. x is 0..1 across the year's slot:\n      //\n      // photos: [\n      //   { src: \"/moments/project.jpg\", alt: \"Day one\", x: 0.7 },\n      // ],\n    },\n    2026: {\n      id: \"today\",\n      events: [{ text: \"Still going. 🎆\", effect: \"fireworks\" }],\n    },\n  },\n})\n",
+      "type": "registry:lib",
+      "target": "lib/lifeline-personal.ts"
+    }
+  ],
+  "type": "registry:block"
+}

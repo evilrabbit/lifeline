@@ -50,7 +50,7 @@ export default function Home() {
         <div className="mx-auto flex h-16 max-w-5xl items-center justify-between gap-6 px-6">
           <LifelineLegend />
           <p className="hidden truncate text-sm text-zinc-500 transition-colors duration-300 dark:text-zinc-600 md:block">
-            npx shadcn@latest add https://evilrabbit.com/r/lifeline.json
+            npx shadcn add evilrabbit/lifeline/personal
           </p>
         </div>
       </footer>

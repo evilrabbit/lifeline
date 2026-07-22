@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "company",
+  "title": "Company timeline",
+  "description": "Founding to today — starter data for a company Lifeline.",
+  "registryDependencies": [
+    "https://evilrabbit.com/r/lifeline.json"
+  ],
+  "files": [
+    {
+      "path": "lib/lifeline-company.ts",
+      "content": "import { defineLifeline } from \"@/lib/lifeline-data\"\n\n/**\n * Company timeline starter — founding to today.\n *\n * `birthYear` is the founding year, so the AGE column reads as the\n * company's age. Milestones work exactly like a personal timeline:\n * launches, pivots, the outage nobody forgets.\n */\nexport const companyLifeline = defineLifeline({\n  slug: \"acme\",\n  name: \"Acme Inc.\",\n  birthYear: 2015,\n  description: \"Acme, from a kitchen table to the enterprise.\",\n  milestones: {\n    2015: {\n      id: \"founded\",\n      events: [\"Founded at a kitchen table with a terrible first name.\"],\n    },\n    2016: {\n      id: \"v1\",\n      events: [\n        [\n          { type: \"text\", value: \"Shipped \" },\n          { type: \"link\", value: \"v1\", href: \"https://example.com\" },\n          { type: \"text\", value: \" to eleven users. Nine were family.\" },\n        ],\n      ],\n    },\n    2018: {\n      id: \"seed\",\n      events: [\n        \"Raised a seed round.\",\n        \"Hired the first person neither founder had met before.\",\n      ],\n    },\n    2020: {\n      id: \"the-outage\",\n      events: [\n        {\n          text: \"The outage. Four hours that taught us more than four years.\",\n          // Attach the post-mortem screenshot as a hover reveal:\n          // image: { src: \"/moments/outage.png\", alt: \"The graph\" },\n        },\n      ],\n    },\n    2022: {\n      id: \"pivot\",\n      events: [\"Killed the flagship. Kept the side feature. It was the company all along.\"],\n    },\n    2024: {\n      id: \"profitable\",\n      events: [\"Profitable. Quietly, then suddenly.\"],\n    },\n    2026: {\n      id: \"today\",\n      events: [{ text: \"A decade in sight. 🎆\", effect: \"fireworks\" }],\n    },\n  },\n})\n",
+      "type": "registry:lib",
+      "target": "lib/lifeline-company.ts"
+    }
+  ],
+  "type": "registry:block"
+}

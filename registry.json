@@ -7,7 +7,7 @@
       "name": "lifeline",
       "type": "registry:block",
       "title": "Lifeline",
-      "description": "An interactive timeline of a life — horizontal on desktop, vertical on mobile, with floating photo cards, hover media, a tap-to-expand lightbox, and a cinematic intro.",
+      "description": "The Lifeline component system — horizontal and scroll-scrubbed on desktop, vertical on mobile, floating photo cards, hover media, a tap-to-expand lightbox, and a cinematic intro.",
       "dependencies": [
         "lucide-react",
         "next-themes"
@@ -125,11 +125,6 @@
           "path": "lib/lifeline-data.ts",
           "type": "registry:lib",
           "target": "lib/lifeline-data.ts"
-        },
-        {
-          "path": "lib/demo-data.ts",
-          "type": "registry:lib",
-          "target": "lib/demo-data.ts"
         }
       ],
       "css": {
@@ -179,6 +174,54 @@
           "z-index": "20"
         }
       }
+    },
+    {
+      "name": "personal",
+      "type": "registry:block",
+      "title": "Personal timeline",
+      "description": "A life, year by year — starter data for a personal Lifeline.",
+      "registryDependencies": [
+        "https://evilrabbit.com/r/lifeline.json"
+      ],
+      "files": [
+        {
+          "path": "lib/lifeline-personal.ts",
+          "type": "registry:lib",
+          "target": "lib/lifeline-personal.ts"
+        }
+      ]
+    },
+    {
+      "name": "company",
+      "type": "registry:block",
+      "title": "Company timeline",
+      "description": "Founding to today — starter data for a company Lifeline.",
+      "registryDependencies": [
+        "https://evilrabbit.com/r/lifeline.json"
+      ],
+      "files": [
+        {
+          "path": "lib/lifeline-company.ts",
+          "type": "registry:lib",
+          "target": "lib/lifeline-company.ts"
+        }
+      ]
+    },
+    {
+      "name": "journey",
+      "type": "registry:block",
+      "title": "Journey timeline",
+      "description": "A bounded run, day by day — tournament, tour, launch. Starter data with day-based labels.",
+      "registryDependencies": [
+        "https://evilrabbit.com/r/lifeline.json"
+      ],
+      "files": [
+        {
+          "path": "lib/lifeline-journey.ts",
+          "type": "registry:lib",
+          "target": "lib/lifeline-journey.ts"
+        }
+      ]
     }
   ]
 }

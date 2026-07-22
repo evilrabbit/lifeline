@@ -6,11 +6,21 @@ Distributed as a [shadcn registry](https://ui.shadcn.com/docs/registry) item: th
 
 ## Install
 
+Pick the starter that matches your subject — each one brings the full component system plus a commented template data file:
+
 ```bash
-npx shadcn@latest add https://evilrabbit.com/r/lifeline.json
+npx shadcn@latest add evilrabbit/lifeline/personal   # a life, year by year
+npx shadcn@latest add evilrabbit/lifeline/company    # founding to today
+npx shadcn@latest add evilrabbit/lifeline/journey    # a bounded run, day by day
 ```
 
-This copies the components into `components/lifeline/`, the data helper into `lib/lifeline-data.ts`, adds the intro keyframes to your CSS, and installs `lucide-react` + `next-themes`.
+Or just the component system, no starter:
+
+```bash
+npx shadcn@latest add evilrabbit/lifeline/lifeline
+```
+
+Any item installs the components into `components/lifeline/`, the data helper into `lib/lifeline-data.ts`, adds the intro keyframes to your CSS, and installs `lucide-react` + `next-themes`. The registry is also served at `https://evilrabbit.com/r/{name}.json` if you prefer URLs.
 
 ## Use
 
