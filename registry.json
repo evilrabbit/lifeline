@@ -1,0 +1,184 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "evilrabbit",
+  "homepage": "https://github.com/evilrabbit/lifeline",
+  "items": [
+    {
+      "name": "lifeline",
+      "type": "registry:block",
+      "title": "Lifeline",
+      "description": "An interactive timeline of a life — horizontal on desktop, vertical on mobile, with floating photo cards, hover media, a tap-to-expand lightbox, and a cinematic intro.",
+      "dependencies": [
+        "lucide-react",
+        "next-themes"
+      ],
+      "registryDependencies": [
+        "utils"
+      ],
+      "files": [
+        {
+          "path": "components/lifeline/company-icon.tsx",
+          "type": "registry:component",
+          "target": "components/lifeline/company-icon.tsx"
+        },
+        {
+          "path": "components/lifeline/index.ts",
+          "type": "registry:component",
+          "target": "components/lifeline/index.ts"
+        },
+        {
+          "path": "components/lifeline/lifeline-desktop.tsx",
+          "type": "registry:component",
+          "target": "components/lifeline/lifeline-desktop.tsx"
+        },
+        {
+          "path": "components/lifeline/lifeline-event.tsx",
+          "type": "registry:component",
+          "target": "components/lifeline/lifeline-event.tsx"
+        },
+        {
+          "path": "components/lifeline/lifeline-fireworks.tsx",
+          "type": "registry:component",
+          "target": "components/lifeline/lifeline-fireworks.tsx"
+        },
+        {
+          "path": "components/lifeline/lifeline-hover-image.tsx",
+          "type": "registry:component",
+          "target": "components/lifeline/lifeline-hover-image.tsx"
+        },
+        {
+          "path": "components/lifeline/lifeline-intro-timing.ts",
+          "type": "registry:component",
+          "target": "components/lifeline/lifeline-intro-timing.ts"
+        },
+        {
+          "path": "components/lifeline/lifeline-labels.tsx",
+          "type": "registry:component",
+          "target": "components/lifeline/lifeline-labels.tsx"
+        },
+        {
+          "path": "components/lifeline/lifeline-layout.ts",
+          "type": "registry:component",
+          "target": "components/lifeline/lifeline-layout.ts"
+        },
+        {
+          "path": "components/lifeline/lifeline-legend.tsx",
+          "type": "registry:component",
+          "target": "components/lifeline/lifeline-legend.tsx"
+        },
+        {
+          "path": "components/lifeline/lifeline-lightbox.tsx",
+          "type": "registry:component",
+          "target": "components/lifeline/lifeline-lightbox.tsx"
+        },
+        {
+          "path": "components/lifeline/lifeline-marker.tsx",
+          "type": "registry:component",
+          "target": "components/lifeline/lifeline-marker.tsx"
+        },
+        {
+          "path": "components/lifeline/lifeline-people.tsx",
+          "type": "registry:component",
+          "target": "components/lifeline/lifeline-people.tsx"
+        },
+        {
+          "path": "components/lifeline/lifeline-photos.tsx",
+          "type": "registry:component",
+          "target": "components/lifeline/lifeline-photos.tsx"
+        },
+        {
+          "path": "components/lifeline/lifeline-utils.ts",
+          "type": "registry:component",
+          "target": "components/lifeline/lifeline-utils.ts"
+        },
+        {
+          "path": "components/lifeline/lifeline-vertical.tsx",
+          "type": "registry:component",
+          "target": "components/lifeline/lifeline-vertical.tsx"
+        },
+        {
+          "path": "components/lifeline/lifeline.tsx",
+          "type": "registry:component",
+          "target": "components/lifeline/lifeline.tsx"
+        },
+        {
+          "path": "components/lifeline/types.ts",
+          "type": "registry:component",
+          "target": "components/lifeline/types.ts"
+        },
+        {
+          "path": "components/lifeline/use-lifeline-intro.ts",
+          "type": "registry:component",
+          "target": "components/lifeline/use-lifeline-intro.ts"
+        },
+        {
+          "path": "components/lifeline/use-lifeline-scroll.ts",
+          "type": "registry:component",
+          "target": "components/lifeline/use-lifeline-scroll.ts"
+        },
+        {
+          "path": "components/lifeline/use-lifeline-vertical-scroll.ts",
+          "type": "registry:component",
+          "target": "components/lifeline/use-lifeline-vertical-scroll.ts"
+        },
+        {
+          "path": "lib/lifeline-data.ts",
+          "type": "registry:lib",
+          "target": "lib/lifeline-data.ts"
+        },
+        {
+          "path": "lib/demo-data.ts",
+          "type": "registry:lib",
+          "target": "lib/demo-data.ts"
+        }
+      ],
+      "css": {
+        "@keyframes lifeline-rail-draw": {
+          "from": {
+            "transform": "scaleX(0)"
+          },
+          "to": {
+            "transform": "scaleX(1)"
+          }
+        },
+        "@keyframes lifeline-marker-in": {
+          "from": {
+            "opacity": "0",
+            "transform": "translate3d(0, 6px, 0)"
+          },
+          "to": {
+            "opacity": "1",
+            "transform": "translate3d(0, 0, 0)"
+          }
+        },
+        "@keyframes lifeline-labels-in": {
+          "from": {
+            "opacity": "0"
+          },
+          "to": {
+            "opacity": "1"
+          }
+        },
+        ".lifeline-rail-intro": {
+          "transform": "scaleX(var(--lifeline-intro-progress, 0))",
+          "transform-origin": "left center"
+        },
+        ".lifeline-rail-intro-vertical": {
+          "transform": "scaleY(var(--lifeline-intro-progress, 0))",
+          "transform-origin": "top center"
+        },
+        ".lifeline-marker-intro": {
+          "opacity": "0",
+          "animation": "lifeline-marker-in var(--lifeline-marker-fade-ms, 420ms) cubic-bezier(0.22, 1, 0.36, 1) forwards"
+        },
+        ".lifeline-labels-intro": {
+          "opacity": "0",
+          "animation": "lifeline-labels-in var(--lifeline-labels-ms, 600ms) cubic-bezier(0.22, 1, 0.36, 1) forwards"
+        },
+        ".lifeline-labels.is-pinned": {
+          "z-index": "20"
+        }
+      }
+    }
+  ]
+}
