@@ -184,9 +184,13 @@ export function useLifelineScroll(
 
       let opacity = 1
 
-      if (rect.left < leftFadeZone) {
-        opacity =
-          rect.left <= 0 ? 0 : rect.left / leftFadeZone
+      // Fade a marker out only as scrubbing carries it left of where
+      // it rests at translate 0 — the first markers naturally live
+      // inside the fade zone and must not open dimmed.
+      const naturalLeft = rect.left + translatePx.current
+      const restLeft = Math.min(naturalLeft, leftFadeZone)
+      if (rect.left < restLeft) {
+        opacity = rect.left <= 0 ? 0 : rect.left / restLeft
       }
 
       if (center > width - fadeZone) {

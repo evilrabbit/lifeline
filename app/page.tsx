@@ -1,5 +1,5 @@
 import { Lifeline } from "@/components/lifeline"
-import { webLifeline } from "@/lib/demo-data"
+import { evilrabbitLifeline } from "@/lib/evilrabbit"
 
 export default function Home() {
   return (
@@ -9,7 +9,7 @@ export default function Home() {
         className="fixed inset-x-0 top-0 z-30 flex h-16 items-center justify-between bg-white/80 px-6 backdrop-blur-sm transition-colors duration-300 dark:bg-black/80"
       >
         <span data-site-nav-logo className="text-[15px] font-medium leading-5">
-          Lifeline
+          Evil Rabbit — Lifeline
         </span>
         <nav className="flex items-center gap-4 text-[13px] text-zinc-500">
           <a
@@ -24,9 +24,9 @@ export default function Home() {
       </header>
       <main className="flex-1 min-h-0 overflow-y-auto pt-16 md:overflow-hidden">
         <Lifeline
-          markers={webLifeline.markers}
-          birthYear={webLifeline.birthYear}
-          title={webLifeline.name}
+          markers={evilrabbitLifeline.markers}
+          birthYear={evilrabbitLifeline.birthYear}
+          title={evilrabbitLifeline.name}
           className="h-full"
         />
       </main>
