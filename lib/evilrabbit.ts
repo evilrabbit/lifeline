@@ -1,9 +1,9 @@
 import { defineLifeline } from "@/lib/lifeline-data"
 
 /**
- * The demo timeline — Evil Rabbit's own. Media (photos, videos,
- * people) intentionally left out here; see the README for how events
- * carry hover images, floating photo cards, and portrait rows.
+ * The demo timeline — Evil Rabbit's own, mentors and met-in-person
+ * included. Event photos and videos land later; see the README for
+ * how events carry hover images and floating photo cards.
  */
 const record = defineLifeline({
   slug: "evilrabbit",
@@ -22,6 +22,20 @@ const record = defineLifeline({
       events: [
         "Started primary school.",
         "Joined my first basketball team: Argentinos del Oeste.",
+      ],
+      mentors: [
+        {
+          name: "Horacio Mansilla",
+          role: "Basketball Coach",
+          color: "#E5484D",
+          photo: "/images/people/horacio-mansilla.png",
+        },
+        {
+          name: "Fernando Prats",
+          role: "Computer Teacher",
+          color: "#3E63DD",
+          photo: "/images/people/fernando-prats.jpg",
+        },
       ],
     },
     1995: {
@@ -66,6 +80,16 @@ const record = defineLifeline({
         ],
       ],
     },
+    2009: {
+      id: "bunbury",
+      events: [],
+      met: [
+        {
+          name: "Enrique Bunbury",
+          photo: "/images/people/enrique-bunbury.png",
+        },
+      ],
+    },
     2010: {
       id: "viacom",
       companies: [{ id: "viacom", name: "Viacom" }],
@@ -85,6 +109,12 @@ const record = defineLifeline({
           { type: "link", value: "mundonick.com", href: "https://mundonick.com" },
         ],
       ],
+      met: [
+        {
+          name: "David Carson",
+          photo: "/images/people/david-carson.png",
+        },
+      ],
     },
     2014: {
       id: "aerolab",
@@ -100,6 +130,20 @@ const record = defineLifeline({
           },
         ],
         "My daughter Ninette was born.",
+      ],
+      mentors: [
+        {
+          name: "Guillermo Rauch",
+          role: "Entrepreneur",
+          color: "#8B5CF6",
+          photo: "/images/people/guillermo-rauch.png",
+        },
+      ],
+      met: [
+        {
+          name: "Guillermo Rauch",
+          photo: "/images/people/guillermo-rauch.png",
+        },
       ],
     },
     2015: {
@@ -152,6 +196,16 @@ const record = defineLifeline({
         "My O-1B visa for individuals with extraordinary ability in the arts was approved.",
         "Moved to San Francisco, California.",
       ],
+      met: [
+        {
+          name: "Jony Ive",
+          photo: "/images/people/jony-ive.png",
+        },
+        {
+          name: "Rasmus Andersson",
+          photo: "/images/people/rasmus-andersson.png",
+        },
+      ],
     },
     2023: {
       id: "geist",
@@ -165,6 +219,16 @@ const record = defineLifeline({
               ", Vercel's main Typeface, releasing it in October with the versions Sans and Mono.",
           },
         ],
+      ],
+    },
+    2024: {
+      id: "elon-musk",
+      events: [],
+      met: [
+        {
+          name: "Elon Musk",
+          photo: "/images/people/elon-musk.png",
+        },
       ],
     },
     2025: {
