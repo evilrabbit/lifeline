@@ -32,7 +32,7 @@ export default function Home() {
       </main>
       <footer className="flex h-12 shrink-0 items-center justify-between px-6 text-[12px] text-zinc-400">
         <span className="hidden md:block">
-          npx shadcn@latest add https://lifeline.evilrabbit.com/r/lifeline.json
+          npx shadcn@latest add https://lifeline-evil-rabbit.vercel.app/r/lifeline.json
         </span>
         <span>MIT</span>
       </footer>

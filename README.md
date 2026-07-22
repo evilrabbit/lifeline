@@ -7,7 +7,7 @@ Distributed as a [shadcn registry](https://ui.shadcn.com/docs/registry) item: th
 ## Install
 
 ```bash
-npx shadcn@latest add https://lifeline.evilrabbit.com/r/lifeline.json
+npx shadcn@latest add https://lifeline-evil-rabbit.vercel.app/r/lifeline.json
 ```
 
 This copies the components into `components/lifeline/`, the data helper into `lib/lifeline-data.ts`, adds the intro keyframes to your CSS, and installs `lucide-react` + `next-themes`.
