@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "theme-switcher",
+  "title": "Theme switcher",
+  "description": "A minimal sun/moon theme toggle for next-themes — the one the Lifeline demo uses.",
+  "dependencies": [
+    "lucide-react",
+    "next-themes"
+  ],
+  "registryDependencies": [
+    "utils"
+  ],
+  "files": [
+    {
+      "path": "components/theme-switcher.tsx",
+      "content": "\"use client\"\n\nimport { Moon, Sun } from \"lucide-react\"\nimport { useTheme } from \"next-themes\"\nimport { useEffect, useState } from \"react\"\nimport { cn } from \"@/lib/utils\"\n\nexport function ThemeSwitcher() {\n  const { setTheme, resolvedTheme } = useTheme()\n  const [mounted, setMounted] = useState(false)\n\n  useEffect(() => {\n    setMounted(true)\n  }, [])\n\n  if (!mounted) {\n    return <span className=\"inline-block h-4 w-4\" aria-hidden=\"true\" />\n  }\n\n  const isDark = resolvedTheme === \"dark\"\n\n  return (\n    <button\n      type=\"button\"\n      onClick={() => setTheme(isDark ? \"light\" : \"dark\")}\n      aria-label={isDark ? \"Switch to light theme\" : \"Switch to dark theme\"}\n      className={cn(\n        \"inline-flex items-center p-0 text-zinc-500 transition-colors duration-300 hover:text-black dark:hover:text-white\",\n      )}\n    >\n      {isDark ? (\n        <Sun className=\"h-4 w-4\" strokeWidth={1.75} />\n      ) : (\n        <Moon className=\"h-4 w-4\" strokeWidth={1.75} />\n      )}\n    </button>\n  )\n}\n",
+      "type": "registry:component",
+      "target": "components/theme-switcher.tsx"
+    }
+  ],
+  "type": "registry:component"
+}

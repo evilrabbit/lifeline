@@ -222,6 +222,26 @@
           "target": "lib/lifeline-journey.ts"
         }
       ]
+    },
+    {
+      "name": "theme-switcher",
+      "type": "registry:component",
+      "title": "Theme switcher",
+      "description": "A minimal sun/moon theme toggle for next-themes — the one the Lifeline demo uses.",
+      "dependencies": [
+        "lucide-react",
+        "next-themes"
+      ],
+      "registryDependencies": [
+        "utils"
+      ],
+      "files": [
+        {
+          "path": "components/theme-switcher.tsx",
+          "type": "registry:component",
+          "target": "components/theme-switcher.tsx"
+        }
+      ]
     }
   ]
 }

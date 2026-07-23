@@ -1,5 +1,6 @@
 import { Lifeline, LifelineLegend } from "@/components/lifeline"
 import { DemoCompanyIcons } from "@/components/demo-company-icons"
+import { ThemeSwitcher } from "@/components/theme-switcher"
 import { RabbitLogo } from "@/components/rabbit-logo"
 import { evilrabbitLifeline } from "@/lib/evilrabbit"
 
@@ -50,7 +51,10 @@ export default function Home() {
 
       <footer className="shrink-0 border-t border-black/10 bg-white/95 transition-colors duration-300 dark:border-white/10 dark:bg-black/95">
         <div className="mx-auto flex h-16 max-w-5xl items-center justify-between gap-6 px-6">
-          <LifelineLegend />
+          <div className="flex items-center gap-6">
+            <ThemeSwitcher />
+            <LifelineLegend />
+          </div>
           <p className="hidden truncate text-sm text-zinc-500 transition-colors duration-300 dark:text-zinc-600 md:block">
             npx shadcn add evilrabbit/lifeline/personal
           </p>

@@ -22,6 +22,12 @@ Or just the component system, no starter:
 npx shadcn@latest add evilrabbit/lifeline/lifeline
 ```
 
+The sun/moon toggle from the demo is its own item:
+
+```bash
+npx shadcn@latest add evilrabbit/lifeline/theme-switcher
+```
+
 Any item installs the components into `components/lifeline/`, the data helper into `lib/lifeline-data.ts`, adds the intro keyframes to your CSS, and installs `lucide-react` + `next-themes`. The registry is also served at `https://evilrabbit.com/r/{name}.json` if you prefer URLs.
 
 ## Use
