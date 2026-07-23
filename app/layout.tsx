@@ -11,7 +11,7 @@ const geistSans = Geist({
 export const metadata: Metadata = {
   title: "Lifeline",
   description:
-    "An interactive timeline of a life — a shadcn registry component. Horizontal on desktop, vertical on mobile, with floating photo cards, hover media, a lightbox, and a cinematic intro.",
+    "A timeline component for the stories that unfold over time — a career, a company, a journey. Ships as a shadcn registry.",
 };
 
 export default function RootLayout({

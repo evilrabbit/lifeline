@@ -1,8 +1,10 @@
 # Lifeline
 
-An interactive timeline of a life — a person, a company, a country, a World Cup run. Horizontal and scrubbed by scroll on desktop, vertical on mobile, with floating draggable photo cards, hover media, a tap-to-expand lightbox, and a cinematic intro that draws the rail across the years.
+A timeline component for the stories that unfold over time — a career, a company, a journey.
 
-Distributed as a [shadcn registry](https://ui.shadcn.com/docs/registry) item: the source lands in your codebase, so every curve, easing, and zinc-toned class is yours to tweak.
+Lifeline lays milestones on a single rail: horizontal and scrubbed by scroll on desktop, vertical on mobile. Years carry events, links, and the people who mattered; media attaches as hover reveals or floating cards that expand into a lightbox. On first load, an intro draws the rail across the years.
+
+It ships as a [shadcn registry](https://ui.shadcn.com/docs/registry) — the source lands in your codebase, so every easing, breakpoint, and class is yours to change.
 
 ## Install
 
