@@ -91,7 +91,7 @@ The layout switches automatically at the `md` breakpoint: horizontal scroll-scru
 | `events` | Strings, or `{ text, image?, effect? }` — `image` shows on hover (desktop) / tap (mobile); `video` on the image makes it a looping clip. `effect: "fireworks"` hides a WebGL easter egg behind a click. |
 | `photos` | Always-visible media cards scattered over the timeline — tilted like a notebook, draggable, tap-to-expand. `x` (0–1 across the year's slot), `y`, `rotate`, `width` are all optional. |
 | `badges` | Small images above the events (flags, logos). |
-| `companies` | Inline organization icons — map your own in `components/lifeline/company-icon.tsx`. |
+| `companies` | Inline organization marks — register your logos once via `registerCompanyIcons({ acme: { icon: AcmeIcon } })`; unregistered ids fall back to the name's initial. |
 | `mentors` / `met` | People rows with portraits along the rail; label them via `legend`. |
 | `age` | Override the computed age label (e.g. `"QF"`, `"F"` for a tournament). |
 

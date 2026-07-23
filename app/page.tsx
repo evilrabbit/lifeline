@@ -1,4 +1,5 @@
 import { Lifeline, LifelineLegend } from "@/components/lifeline"
+import { DemoCompanyIcons } from "@/components/demo-company-icons"
 import { RabbitLogo } from "@/components/rabbit-logo"
 import { evilrabbitLifeline } from "@/lib/evilrabbit"
 
@@ -37,6 +38,7 @@ export default function Home() {
         </div>
       </nav>
 
+      <DemoCompanyIcons />
       <main className="flex-1 min-h-0 overflow-y-auto pt-16 md:overflow-hidden">
         <Lifeline
           markers={evilrabbitLifeline.markers}

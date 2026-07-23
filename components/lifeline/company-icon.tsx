@@ -1,18 +1,31 @@
 import type { ComponentType } from "react"
 import { cn } from "@/lib/utils"
 
-/**
- * Inline logos for the companies/organizations on a timeline.
- *
- * Map your own ids to icon components here — anything that accepts a
- * className and renders an SVG. Unmapped ids fall back to the name's
- * initial in a small ring, so a timeline works before you've drawn a
- * single logo.
- */
 export type CompanyIconId = string
 
-const icons: Record<string, ComponentType<{ className?: string }>> = {
-  // "acme": AcmeIcon,
+export interface CompanyIconEntry {
+  icon: ComponentType<{ className?: string }>
+  /** Tailwind size for the mark — wordmarks want a wide box. */
+  sizeClassName?: string
+}
+
+const registry: Record<string, CompanyIconEntry> = {}
+
+/**
+ * Map your organization ids to icon components. Call once at module
+ * scope, from a module that loads before the timeline renders:
+ *
+ *   registerCompanyIcons({
+ *     acme: { icon: AcmeIcon, sizeClassName: "h-4 w-4" },
+ *   })
+ *
+ * Unregistered ids fall back to the name's initial in a small ring,
+ * so a timeline reads cleanly before you've drawn a single logo.
+ */
+export function registerCompanyIcons(
+  entries: Record<string, CompanyIconEntry>,
+) {
+  Object.assign(registry, entries)
 }
 
 export function CompanyIcon({
@@ -24,12 +37,21 @@ export function CompanyIcon({
   label: string
   className?: string
 }) {
-  const Icon = icons[id]
+  const entry = registry[id]
 
-  if (Icon) {
+  if (entry) {
+    const Icon = entry.icon
     return (
-      <span title={label} className="inline-flex">
-        <Icon className={cn("h-5 w-5", className)} />
+      <span
+        className={cn(
+          "inline-flex shrink-0 items-center justify-center text-black transition-colors duration-300 dark:text-white",
+          entry.sizeClassName ?? "h-4 w-4",
+          className,
+        )}
+        aria-label={label}
+        title={label}
+      >
+        <Icon className="h-full w-full" />
       </span>
     )
   }
