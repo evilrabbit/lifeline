@@ -55,8 +55,9 @@ export default function Home() {
             <ThemeSwitcher />
             <LifelineLegend />
           </div>
-          <p className="hidden truncate text-sm text-zinc-500 transition-colors duration-300 dark:text-zinc-600 md:block">
-            npx shadcn add evilrabbit/lifeline/personal
+          <p className="hidden truncate text-sm text-black transition-colors duration-300 dark:text-white md:block">
+            <span className="text-zinc-500 dark:text-zinc-600">npx</span>{" "}
+            shadcn add evilrabbit/lifeline/personal
           </p>
         </div>
       </footer>
