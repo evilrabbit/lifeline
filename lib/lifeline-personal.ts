@@ -19,19 +19,18 @@ export const personalLifeline = defineLifeline({
     },
     2008: {
       id: "school",
-      events: [
-        "Finished school. Started something else.",
-        // Portraits along the rail — mentors get a role and a color:
-        //
-        // mentors: [
-        //   {
-        //     name: "Someone Formative",
-        //     role: "Teacher",
-        //     color: "#3E63DD",
-        //     photo: "/images/people/someone.png",
-        //   },
-        // ],
-      ],
+      events: ["Finished school. Started something else."],
+      // Portraits along the rail — mentors get a role and a color.
+      // A marker-level field, alongside `events`:
+      //
+      // mentors: [
+      //   {
+      //     name: "Someone Formative",
+      //     role: "Teacher",
+      //     color: "#3E63DD",
+      //     photo: "/images/people/someone.png",
+      //   },
+      // ],
     },
     2014: {
       id: "first-job",
@@ -56,10 +55,11 @@ export const personalLifeline = defineLifeline({
           // `video` for a muted looping clip:
           // image: { src: "/moments/the-move.jpg", alt: "The move" },
         },
-        // People you met — photo-only portraits under the rail:
-        //
-        // met: [{ name: "A Hero", photo: "/images/people/hero.png" }],
       ],
+      // People you met — photo-only portraits under the rail.
+      // Also a marker-level field:
+      //
+      // met: [{ name: "A Hero", photo: "/images/people/hero.png" }],
     },
     2023: {
       id: "the-project",
