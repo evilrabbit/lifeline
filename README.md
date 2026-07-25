@@ -49,7 +49,13 @@ Any item installs the components into `components/lifeline/`, the data helper in
 Define a timeline as milestones keyed by year, and render it:
 
 ```tsx
-import { Lifeline } from "@/components/lifeline"
+import { Lifeline, LifelineLegend } from "@/components/lifeline"
+import {
+  LifelineFooter,
+  LifelineNav,
+  LifelineShell,
+  LifelineStage,
+} from "@/components/lifeline-shell"
 import { defineLifeline } from "@/lib/lifeline-data"
 
 const life = defineLifeline({
@@ -90,39 +96,56 @@ const life = defineLifeline({
 
 export default function Page() {
   return (
-    <div className="flex h-dvh flex-col overflow-hidden bg-white text-black dark:bg-black dark:text-white">
-      {/* The rail measures its start and end from your nav. Mark the logo
-          and the inner container, and cap that container — the timeline
-          starts at the logo and ends at the container's right edge,
-          inset from the viewport, which is what the intro draws across.
-          Drop the markers and the rail runs edge to edge instead. */}
-      <nav className="fixed inset-x-0 top-0 z-50 border-b border-black/10 bg-white/80 backdrop-blur-xl dark:border-white/10 dark:bg-black/80">
-        <div
-          data-site-nav-inner
-          className="mx-auto flex h-16 max-w-5xl items-center px-6"
-        >
-          <a href="/" data-site-nav-logo aria-label="Home">
-            <YourLogo className="h-6 w-6" />
-          </a>
-        </div>
-      </nav>
+    <LifelineShell>
+      {/* Not decoration: the rail measures its start and end from this
+          nav, which is what keeps it inset from the viewport instead of
+          running edge to edge. That span is what the intro draws. */}
+      <LifelineNav logo={<YourLogo className="h-6 w-6" />} />
 
-      <main className="flex-1 min-h-0 overflow-y-auto pt-16 md:overflow-hidden">
+      <LifelineStage>
         <Lifeline
           markers={life.markers}
           birthYear={life.birthYear}
           title={life.name}
           className="h-full"
         />
-      </main>
-    </div>
+      </LifelineStage>
+
+      <LifelineFooter>
+        <LifelineLegend />
+      </LifelineFooter>
+    </LifelineShell>
   )
 }
 ```
 
 The layout switches automatically at the `md` breakpoint: horizontal scroll-scrubbed timeline above it, vertical scrolling timeline below.
 
-The nav above is the whole reason the rail sits inset rather than bleeding to both edges — see [Alignment with your site chrome](#alignment-with-your-site-chrome) if you already have chrome of your own.
+`LifelineNav` is the whole reason the rail sits inset rather than bleeding to both edges — see [Alignment with your site chrome](#alignment-with-your-site-chrome) if you already have chrome of your own and would rather mark it up yourself.
+
+### Props
+
+```tsx
+<Lifeline markers={life.markers} birthYear={life.birthYear} />
+```
+
+| Prop | Type | |
+| --- | --- | --- |
+| `markers` | `LifelineMarker[]` | Required. `defineLifeline` returns these from your milestones. |
+| `birthYear` | `number` | Required. Year zero for the age row and the axis start. |
+| `title` | `string` | Becomes the `aria-label` on the timeline region. Defaults to `"Lifeline"`. |
+| `className` | `string` | Merged onto the horizontal timeline's root, after its own `pt-5` — `h-full` is what you want inside `LifelineStage`. Desktop only: the vertical layout below `md` ignores it. |
+
+The shell pieces, all of which pass `className` through:
+
+| Component | Props | |
+| --- | --- | --- |
+| `LifelineShell` | `children`, `className` | The `h-dvh` column that clips overflow. |
+| `LifelineNav` | `logo`, `logoHref`, `logoLabel`, `children`, `className`, `containerClassName` | `logo` is required and goes inside the marked anchor — the rail starts at its left edge. `logoHref` defaults to `/`, `logoLabel` to `"Home"`. `children` land on the right: links, a theme switcher. |
+| `LifelineStage` | `children`, `className` | The `<main>`. Clears the fixed nav and hands scrolling to the horizontal scrub above `md`. |
+| `LifelineFooter` | `children`, `className`, `containerClassName` | Where `LifelineLegend` usually goes. |
+
+`containerClassName` overrides the width cap on the nav and the footer. Change it on **both** — one constant is shared between them, and the rail's end follows the nav, so a mismatch shows up as a rail that stops short of the footer's edge.
 
 ### What a milestone can carry
 
