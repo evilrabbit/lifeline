@@ -229,6 +229,13 @@ const record = defineLifeline({
           src: "/images/meeting-elon.jpg",
           alt: "Video from the day I met Elon Musk",
           video: "/images/meeting-elon.mp4",
+          // Card is 180px wide → 320px tall (9:16). People row sits 192px
+          // below the rail; top at -140 puts the bottom edge 12px above
+          // Elon's avatar. The 2024 label starts at the slot's left edge,
+          // so the card reaches slightly past it (-0.02 × 220px slot ≈
+          // 4px overhang) to cover the year text completely.
+          x: -0.02,
+          y: -140,
         },
       ],
       met: [
