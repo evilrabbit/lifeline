@@ -176,6 +176,43 @@
       }
     },
     {
+      "name": "lifeline-shell",
+      "type": "registry:component",
+      "title": "Lifeline shell",
+      "description": "The framing on its own, no route — a capped, marked nav the rail aligns its start and end to, plus the stage and footer. Install this when you already have a page and just want the timeline to sit inset and aligned inside it.",
+      "registryDependencies": [
+        "https://evilrabbit.com/r/lifeline.json"
+      ],
+      "files": [
+        {
+          "path": "components/lifeline-shell.tsx",
+          "type": "registry:component",
+          "target": "components/lifeline-shell.tsx"
+        }
+      ]
+    },
+    {
+      "name": "lifeline-page",
+      "type": "registry:block",
+      "title": "Lifeline page",
+      "description": "A working page in one command — the shell, the personal starter data, and an example route wired together. Installs a route at app/lifeline/page.tsx; if you already have one, shadcn asks before touching it.",
+      "registryDependencies": [
+        "https://evilrabbit.com/r/personal.json"
+      ],
+      "files": [
+        {
+          "path": "components/lifeline-shell.tsx",
+          "type": "registry:component",
+          "target": "components/lifeline-shell.tsx"
+        },
+        {
+          "path": "app/lifeline/page.tsx",
+          "type": "registry:page",
+          "target": "app/lifeline/page.tsx"
+        }
+      ]
+    },
+    {
       "name": "personal",
       "type": "registry:block",
       "title": "Personal timeline",

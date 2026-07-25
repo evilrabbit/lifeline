@@ -1,4 +1,10 @@
 import { Lifeline, LifelineLegend } from "@/components/lifeline"
+import {
+  LifelineFooter,
+  LifelineNav,
+  LifelineShell,
+  LifelineStage,
+} from "@/components/lifeline-shell"
 import { DemoCompanyIcons } from "@/components/demo-company-icons"
 import { ThemeSwitcher } from "@/components/theme-switcher"
 import { CopyCommand } from "@/components/copy-command"
@@ -7,58 +13,42 @@ import { evilrabbitLifeline } from "@/lib/evilrabbit"
 
 export default function Home() {
   return (
-    <div className="flex h-dvh flex-col overflow-hidden bg-white text-black antialiased transition-colors duration-300 dark:bg-black dark:text-white">
-      {/* Same shell as evilrabbit.com: a fixed nav whose inner container
-          is centered and capped at max-w-5xl — the timeline aligns its
-          start to the logo and its end to the container's right edge. */}
-      <nav className="fixed inset-x-0 top-0 z-50">
-        <div className="border-b border-black/10 bg-white/80 backdrop-blur-xl transition-colors duration-300 dark:border-white/10 dark:bg-black/80">
-          <div
-            data-site-nav-inner
-            className="mx-auto flex h-16 max-w-5xl items-center justify-between px-6"
-          >
-            <a
-              href="/"
-              data-site-nav-logo
-              aria-label="Evil Rabbit — Lifeline"
-              className="text-black transition-[color,opacity] duration-300 hover:opacity-70 dark:text-white"
-            >
-              <RabbitLogo className="h-6 w-6" />
-            </a>
-
-            <div className="flex items-center gap-8">
-              <a
-                href="https://github.com/evilrabbit/lifeline"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm text-zinc-500 transition-colors duration-300 hover:text-black dark:hover:text-white"
-              >
-                GitHub
-              </a>
-            </div>
-          </div>
-        </div>
-      </nav>
+    <LifelineShell>
+      {/* The same shell the registry ships as `lifeline-page` — the nav's
+          capped inner container is what the rail aligns its start and
+          end to. */}
+      <LifelineNav
+        logo={<RabbitLogo className="h-6 w-6" />}
+        logoLabel="Evil Rabbit — Lifeline"
+      >
+        <a
+          href="https://github.com/evilrabbit/lifeline"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-sm text-zinc-500 transition-colors duration-300 hover:text-black dark:hover:text-white"
+        >
+          GitHub
+        </a>
+      </LifelineNav>
 
       <DemoCompanyIcons />
-      <main className="flex-1 min-h-0 overflow-y-auto pt-16 md:overflow-hidden">
+
+      <LifelineStage>
         <Lifeline
           markers={evilrabbitLifeline.markers}
           birthYear={evilrabbitLifeline.birthYear}
           title={evilrabbitLifeline.name}
           className="h-full"
         />
-      </main>
+      </LifelineStage>
 
-      <footer className="shrink-0 border-t border-black/10 bg-white/95 transition-colors duration-300 dark:border-white/10 dark:bg-black/95">
-        <div className="mx-auto flex h-16 max-w-5xl items-center justify-between gap-6 px-6">
-          <div className="flex items-center gap-6">
-            <ThemeSwitcher />
-            <LifelineLegend />
-          </div>
-          <CopyCommand command="npx shadcn add evilrabbit/lifeline/personal" />
+      <LifelineFooter>
+        <div className="flex items-center gap-6">
+          <ThemeSwitcher />
+          <LifelineLegend />
         </div>
-      </footer>
-    </div>
+        <CopyCommand command="npx shadcn add evilrabbit/lifeline/personal" />
+      </LifelineFooter>
+    </LifelineShell>
   )
 }

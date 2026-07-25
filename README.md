@@ -8,7 +8,21 @@ It ships as a [shadcn registry](https://ui.shadcn.com/docs/registry) — the sou
 
 ## Install
 
-Pick the starter that matches your subject — each one brings the full component system plus a commented template data file:
+**Starting from nothing?** This gets you a page that runs, framing included:
+
+```bash
+npx shadcn@latest add evilrabbit/lifeline/lifeline-page
+```
+
+Components, starter data, the shell, and a route at `app/lifeline/page.tsx`. If that route already exists, shadcn asks before touching it — answer no and nothing of yours is lost.
+
+**Already have a page?** Take the shell without the route, so the rail still sits inset and aligned inside your own layout:
+
+```bash
+npx shadcn@latest add evilrabbit/lifeline/lifeline-shell
+```
+
+**Just want the data template?** Pick the starter that matches your subject — each brings the component system plus a commented template file, and no framing:
 
 ```bash
 npx shadcn@latest add evilrabbit/lifeline/personal   # a life, year by year
@@ -16,7 +30,7 @@ npx shadcn@latest add evilrabbit/lifeline/company    # founding to today
 npx shadcn@latest add evilrabbit/lifeline/journey    # a bounded run, day by day
 ```
 
-Or just the component system, no starter:
+Or just the component system, no starter and no framing:
 
 ```bash
 npx shadcn@latest add evilrabbit/lifeline/lifeline
@@ -76,19 +90,39 @@ const life = defineLifeline({
 
 export default function Page() {
   return (
-    <main className="h-dvh overflow-y-auto pt-16 md:overflow-hidden">
-      <Lifeline
-        markers={life.markers}
-        birthYear={life.birthYear}
-        title={life.name}
-        className="h-full"
-      />
-    </main>
+    <div className="flex h-dvh flex-col overflow-hidden bg-white text-black dark:bg-black dark:text-white">
+      {/* The rail measures its start and end from your nav. Mark the logo
+          and the inner container, and cap that container — the timeline
+          starts at the logo and ends at the container's right edge,
+          inset from the viewport, which is what the intro draws across.
+          Drop the markers and the rail runs edge to edge instead. */}
+      <nav className="fixed inset-x-0 top-0 z-50 border-b border-black/10 bg-white/80 backdrop-blur-xl dark:border-white/10 dark:bg-black/80">
+        <div
+          data-site-nav-inner
+          className="mx-auto flex h-16 max-w-5xl items-center px-6"
+        >
+          <a href="/" data-site-nav-logo aria-label="Home">
+            <YourLogo className="h-6 w-6" />
+          </a>
+        </div>
+      </nav>
+
+      <main className="flex-1 min-h-0 overflow-y-auto pt-16 md:overflow-hidden">
+        <Lifeline
+          markers={life.markers}
+          birthYear={life.birthYear}
+          title={life.name}
+          className="h-full"
+        />
+      </main>
+    </div>
   )
 }
 ```
 
 The layout switches automatically at the `md` breakpoint: horizontal scroll-scrubbed timeline above it, vertical scrolling timeline below.
+
+The nav above is the whole reason the rail sits inset rather than bleeding to both edges — see [Alignment with your site chrome](#alignment-with-your-site-chrome) if you already have chrome of your own.
 
 ### What a milestone can carry
 
@@ -103,7 +137,18 @@ The layout switches automatically at the `md` breakpoint: horizontal scroll-scru
 
 ### Alignment with your site chrome
 
-On desktop, the timeline aligns its start and end with your navigation if you mark it: put `data-site-nav-logo` on your logo element and `data-site-nav-inner` on the nav's inner container. Without the markers it falls back to the stage's own edges.
+On desktop, the timeline measures where to begin and end from your navigation, so the rail lines up with the rest of the page instead of running to the viewport edges:
+
+| Marker | Effect |
+| --- | --- |
+| `data-site-nav-logo` | The rail's first marker starts at this element's left edge. |
+| `data-site-nav-inner` | The rail ends 24px inside this element's right edge. Cap it — `mx-auto max-w-5xl px-6` on the demo — and the timeline inherits that width. |
+
+Both are read from the document on mount and re-read on resize, so the nav can live anywhere in the tree, not just above the Lifeline.
+
+`lifeline-shell` and `lifeline-page` ship all of this wired up — `LifelineShell`, `LifelineNav`, `LifelineStage`, and `LifelineFooter`, with the markers already in place and one `max-w-5xl` constant shared by the nav and the footer so they can't drift apart. Already have a nav? Put the two attributes on it yourself and skip the shell entirely; the rail only cares about the attributes, not about who rendered them.
+
+Without the markers the rail falls back to the stage's own box: it fills whatever width the Lifeline's container has. In a bare `<main>` that means edge to edge, and the intro sweeps the full viewport. If that's what you want, drop the attributes; if you want it narrower without a nav, put the Lifeline in a capped, centered container and the fallback follows it.
 
 ## Requirements
 
