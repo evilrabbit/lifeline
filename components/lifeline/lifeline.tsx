@@ -24,7 +24,7 @@ export function Lifeline(props: LifelineProps) {
   }, [])
 
   if (isMobile === null) {
-    return <div className="invisible h-full min-h-[50vh]" aria-hidden="true" />
+    return <div className="invisible h-full" aria-hidden="true" />
   }
 
   if (isMobile) {

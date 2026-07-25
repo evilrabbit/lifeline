@@ -7,8 +7,6 @@ import {
 } from "./lifeline-labels"
 import { clamp } from "./lifeline-utils"
 
-const NAV_HEIGHT = 64
-const FOOTER_HEIGHT = 64
 const FADE_ZONE = 200
 const FADE_ZONE_COARSE = 72
 const LEFT_EXIT_FADE_ZONE = 400
@@ -44,12 +42,10 @@ function isInteractiveTarget(target: EventTarget | null) {
   )
 }
 
-function isInStage(clientY: number, isCoarsePointer: boolean) {
-  if (isCoarsePointer) return clientY >= NAV_HEIGHT
-
+function isEditableTarget(target: EventTarget | null) {
   return (
-    clientY >= NAV_HEIGHT &&
-    clientY <= window.innerHeight - FOOTER_HEIGHT
+    target instanceof Element &&
+    Boolean(target.closest("input, textarea, select, [contenteditable]"))
   )
 }
 
@@ -121,12 +117,13 @@ export function useLifelineScroll(
     [markerCount],
   )
 
-  const getLabelViewportLeft = useCallback((translate: number) => {
+  const getLabelStageLeft = useCallback((translate: number) => {
     const section = sectionRef.current
     if (!section) return { isSticky: false, labelLeft: 0 }
 
-    const stageLeft = section.getBoundingClientRect().left
-    const naturalLeft = stageLeft + startInset.current - translate
+    // Stage-relative: labels pin LIFELINE_STICKY_LEFT px inside the
+    // section's own left edge, wherever the section sits on the page.
+    const naturalLeft = startInset.current - translate
     const isSticky = naturalLeft <= LIFELINE_STICKY_LEFT
 
     return {
@@ -137,16 +134,14 @@ export function useLifelineScroll(
 
   const applyLabelSticky = useCallback(
     (translate: number) => {
-      const section = sectionRef.current
       const labels = labelsRef.current
-      const { isSticky, labelLeft } = getLabelViewportLeft(translate)
+      const { isSticky, labelLeft } = getLabelStageLeft(translate)
 
-      if (!section || !labels) return { isSticky, labelLeft }
+      if (!labels) return { isSticky, labelLeft }
 
       if (isSticky) {
-        const stageLeft = section.getBoundingClientRect().left
         const labelExtra =
-          LIFELINE_STICKY_LEFT - stageLeft - startInset.current + translate
+          LIFELINE_STICKY_LEFT - startInset.current + translate
         labels.style.transform = `translate3d(${labelExtra}px, 0, 0)`
         labels.classList.add("is-pinned")
       } else {
@@ -156,7 +151,7 @@ export function useLifelineScroll(
 
       return { isSticky, labelLeft }
     },
-    [getLabelViewportLeft],
+    [getLabelStageLeft],
   )
 
   const isScrollLocked = useCallback(() => {
@@ -169,7 +164,12 @@ export function useLifelineScroll(
   const updateFades = useCallback(() => {
     if (settlingRef.current) return
 
-    const width = window.innerWidth
+    const section = sectionRef.current
+    if (!section) return
+
+    // All fade math is relative to the section's own box — the lifeline
+    // may be embedded anywhere, not pinned to the viewport.
+    const stageRect = section.getBoundingClientRect()
     const isCoarse = isCoarsePointerRef.current
     const fadeZone = isCoarse ? FADE_ZONE_COARSE : FADE_ZONE
     const leftFadeZone = isCoarse
@@ -180,28 +180,30 @@ export function useLifelineScroll(
       if (!marker) return
 
       const rect = marker.getBoundingClientRect()
-      const center = rect.left + rect.width / 2
+      const markerLeft = rect.left - stageRect.left
+      const center = markerLeft + rect.width / 2
 
       let opacity = 1
 
       // Fade a marker out only as scrubbing carries it left of where
       // it rests at translate 0 — the first markers naturally live
       // inside the fade zone and must not open dimmed.
-      const naturalLeft = rect.left + translatePx.current
+      const naturalLeft = markerLeft + translatePx.current
       const restLeft = Math.min(naturalLeft, leftFadeZone)
-      if (rect.left < restLeft) {
-        opacity = rect.left <= 0 ? 0 : rect.left / restLeft
+      if (markerLeft < restLeft) {
+        opacity = markerLeft <= 0 ? 0 : markerLeft / restLeft
       }
 
-      if (center > width - fadeZone) {
-        opacity = Math.min(opacity, (width - center) / fadeZone)
+      if (center > stageRect.width - fadeZone) {
+        opacity = Math.min(opacity, (stageRect.width - center) / fadeZone)
       }
 
       if (isCoarse) {
         const readableLeft = LIFELINE_STICKY_SHIELD_WIDTH
-        const readableRight = width - 12
+        const readableRight = stageRect.width - 12
+        const markerRight = rect.right - stageRect.left
         const visibleWidth =
-          Math.min(rect.right, readableRight) - Math.max(rect.left, readableLeft)
+          Math.min(markerRight, readableRight) - Math.max(markerLeft, readableLeft)
         const visibility = rect.width > 0 ? visibleWidth / rect.width : 0
 
         if (visibility >= 0.5) {
@@ -374,20 +376,7 @@ export function useLifelineScroll(
   ])
 
   useEffect(() => {
-    const html = document.documentElement
-    const body = document.body
-
-    html.classList.add("lifeline-scroll")
-    const previousHtmlOverflow = html.style.overflow
-    const previousBodyOverflow = body.style.overflow
-    html.style.overflow = "hidden"
-    body.style.overflow = "hidden"
-    window.scrollTo(0, 0)
-
     return () => {
-      html.classList.remove("lifeline-scroll")
-      html.style.overflow = previousHtmlOverflow
-      body.style.overflow = previousBodyOverflow
       initialized.current = false
     }
   }, [])
@@ -475,7 +464,6 @@ export function useLifelineScroll(
     window.addEventListener("resize", scheduleMeasure)
 
     const onWheel = (event: WheelEvent) => {
-      if (!isInStage(event.clientY, isCoarsePointerRef.current)) return
       if (isScrollLocked()) return
 
       if (maxTranslate.current <= 0) {
@@ -520,7 +508,6 @@ export function useLifelineScroll(
     }
 
     const onPointerDown = (event: PointerEvent) => {
-      if (!isInStage(event.clientY, isCoarsePointerRef.current)) return
       if (isScrollLocked()) return
       if (isInteractiveTarget(event.target)) return
       if (maxTranslate.current <= 0) return
@@ -613,9 +600,31 @@ export function useLifelineScroll(
       }
     }
 
+    // Arrow keys scrub only when the lifeline effectively is the page —
+    // focus inside the section, or the section filling most of the
+    // viewport. An embedded instance must not capture host keyboard
+    // scrolling.
+    const ownsKeyboard = () => {
+      const active = document.activeElement
+      if (active && section.contains(active)) return true
+
+      const rect = section.getBoundingClientRect()
+      const visibleX =
+        Math.min(rect.right, window.innerWidth) - Math.max(rect.left, 0)
+      const visibleY =
+        Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0)
+      if (visibleX <= 0 || visibleY <= 0) return false
+
+      return (
+        (visibleX * visibleY) / (window.innerWidth * window.innerHeight) >= 0.5
+      )
+    }
+
     const onKeyDown = (event: KeyboardEvent) => {
       if (maxTranslate.current <= 0) return
       if (isScrollLocked()) return
+      if (isEditableTarget(event.target)) return
+      if (!ownsKeyboard()) return
 
       stopMomentum()
       dragVelocity.current = 0
@@ -631,7 +640,7 @@ export function useLifelineScroll(
       }
     }
 
-    window.addEventListener("wheel", onWheel, { passive: false })
+    section.addEventListener("wheel", onWheel, { passive: false })
     section.addEventListener("pointerdown", onPointerDown)
     section.addEventListener("pointermove", onPointerMove, { passive: false })
     section.addEventListener("pointerup", endDrag)
@@ -645,7 +654,7 @@ export function useLifelineScroll(
       settlingRef.current = false
       resizeObserver?.disconnect()
       window.removeEventListener("resize", scheduleMeasure)
-      window.removeEventListener("wheel", onWheel)
+      section.removeEventListener("wheel", onWheel)
       section.removeEventListener("pointerdown", onPointerDown)
       section.removeEventListener("pointermove", onPointerMove)
       section.removeEventListener("pointerup", endDrag)
