@@ -176,7 +176,7 @@
       }
     },
     {
-      "name": "lifeline-shell",
+      "name": "shell",
       "type": "registry:component",
       "title": "Lifeline shell",
       "description": "The framing on its own, no route — a capped, marked nav the rail aligns its start and end to, plus the stage and footer. Install this when you already have a page and just want the timeline to sit inset and aligned inside it.",
@@ -192,7 +192,7 @@
       ]
     },
     {
-      "name": "lifeline-page",
+      "name": "page",
       "type": "registry:block",
       "title": "Lifeline page",
       "description": "A working page in one command — the shell, the personal starter data, and an example route wired together. Installs a route at app/lifeline/page.tsx; if you already have one, shadcn asks before touching it.",

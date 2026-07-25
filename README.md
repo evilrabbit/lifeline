@@ -11,7 +11,7 @@ It ships as a [shadcn registry](https://ui.shadcn.com/docs/registry) — the sou
 **Starting from nothing?** This gets you a page that runs, framing included:
 
 ```bash
-npx shadcn@latest add evilrabbit/lifeline/lifeline-page
+npx shadcn@latest add evilrabbit/lifeline/page
 ```
 
 Components, starter data, the shell, and a route at `app/lifeline/page.tsx`. If that route already exists, shadcn asks before touching it — answer no and nothing of yours is lost.
@@ -19,7 +19,7 @@ Components, starter data, the shell, and a route at `app/lifeline/page.tsx`. If 
 **Already have a page?** Take the shell without the route, so the rail still sits inset and aligned inside your own layout:
 
 ```bash
-npx shadcn@latest add evilrabbit/lifeline/lifeline-shell
+npx shadcn@latest add evilrabbit/lifeline/shell
 ```
 
 **Just want the data template?** Pick the starter that matches your subject — each brings the component system plus a commented template file, and no framing:
@@ -169,7 +169,7 @@ On desktop, the timeline measures where to begin and end from your navigation, s
 
 Both are read from the document on mount and re-read on resize, so the nav can live anywhere in the tree, not just above the Lifeline.
 
-`lifeline-shell` and `lifeline-page` ship all of this wired up — `LifelineShell`, `LifelineNav`, `LifelineStage`, and `LifelineFooter`, with the markers already in place and one `max-w-5xl` constant shared by the nav and the footer so they can't drift apart. Already have a nav? Put the two attributes on it yourself and skip the shell entirely; the rail only cares about the attributes, not about who rendered them.
+`shell` and `page` ship all of this wired up — `LifelineShell`, `LifelineNav`, `LifelineStage`, and `LifelineFooter`, with the markers already in place and one `max-w-5xl` constant shared by the nav and the footer so they can't drift apart. Already have a nav? Put the two attributes on it yourself and skip the shell entirely; the rail only cares about the attributes, not about who rendered them.
 
 Without the markers the rail falls back to the stage's own box: it fills whatever width the Lifeline's container has. In a bare `<main>` that means edge to edge, and the intro sweeps the full viewport. If that's what you want, drop the attributes; if you want it narrower without a nav, put the Lifeline in a capped, centered container and the fallback follows it.
 

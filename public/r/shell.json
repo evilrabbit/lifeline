@@ -1,6 +1,6 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-  "name": "lifeline-shell",
+  "name": "shell",
   "title": "Lifeline shell",
   "description": "The framing on its own, no route — a capped, marked nav the rail aligns its start and end to, plus the stage and footer. Install this when you already have a page and just want the timeline to sit inset and aligned inside it.",
   "registryDependencies": [

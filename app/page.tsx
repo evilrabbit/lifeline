@@ -14,7 +14,7 @@ import { evilrabbitLifeline } from "@/lib/evilrabbit"
 export default function Home() {
   return (
     <LifelineShell>
-      {/* The same shell the registry ships as `lifeline-page` — the nav's
+      {/* The same shell the registry ships as `page` — the nav's
           capped inner container is what the rail aligns its start and
           end to. */}
       <LifelineNav

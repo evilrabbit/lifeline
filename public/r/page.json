@@ -1,6 +1,6 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-  "name": "lifeline-page",
+  "name": "page",
   "title": "Lifeline page",
   "description": "A working page in one command — the shell, the personal starter data, and an example route wired together. Installs a route at app/lifeline/page.tsx; if you already have one, shadcn asks before touching it.",
   "registryDependencies": [
