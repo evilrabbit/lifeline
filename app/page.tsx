@@ -1,6 +1,7 @@
 import { Lifeline, LifelineLegend } from "@/components/lifeline"
 import { DemoCompanyIcons } from "@/components/demo-company-icons"
 import { ThemeSwitcher } from "@/components/theme-switcher"
+import { CopyCommand } from "@/components/copy-command"
 import { RabbitLogo } from "@/components/rabbit-logo"
 import { evilrabbitLifeline } from "@/lib/evilrabbit"
 
@@ -55,10 +56,7 @@ export default function Home() {
             <ThemeSwitcher />
             <LifelineLegend />
           </div>
-          <p className="hidden truncate text-sm text-black transition-colors duration-300 dark:text-white md:block">
-            <span className="text-zinc-500 dark:text-zinc-600">npx</span>{" "}
-            shadcn add evilrabbit/lifeline/personal
-          </p>
+          <CopyCommand command="npx shadcn add evilrabbit/lifeline/personal" />
         </div>
       </footer>
     </div>

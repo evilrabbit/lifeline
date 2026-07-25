@@ -224,6 +224,13 @@ const record = defineLifeline({
     2024: {
       id: "elon-musk",
       events: [],
+      photos: [
+        {
+          src: "/images/meeting-elon.jpg",
+          alt: "Video from the day I met Elon Musk",
+          video: "/images/meeting-elon.mp4",
+        },
+      ],
       met: [
         {
           name: "Elon Musk",
