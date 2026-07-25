@@ -74,7 +74,19 @@ export const LifelineMarkerColumn = forwardRef<
           </p>
 
           <div className="relative w-full pb-10 text-zinc-500 transition-colors duration-300 group-hover:text-black dark:group-hover:text-zinc-300">
-            <div className="flex w-full flex-col items-start pt-6">
+            {/* When this column carries people, the content block reserves
+                the band's height as a floor: short and average columns put
+                their portraits on the same line as every other column, and
+                a column whose events run past the floor pushes its own
+                portraits below them instead of under them. pb-6 is the gap
+                in the overflow case — absorbed by the floor otherwise. */}
+            <div
+              className={cn(
+                "flex w-full flex-col items-start pt-6",
+                people.length > 0 &&
+                  "min-h-[var(--lifeline-people-top)] pb-6",
+              )}
+            >
               {marker.badges && marker.badges.length > 0 && (
                 <div className="mb-3 flex items-center justify-start gap-2">
                   {marker.badges.map((badge) => (
@@ -157,7 +169,7 @@ export const LifelineMarkerColumn = forwardRef<
             </div>
 
             {people.length > 0 && (
-              <div className="absolute left-0 top-[var(--lifeline-people-top)] w-full">
+              <div className="w-full">
                 <LifelinePeople people={people} />
               </div>
             )}
