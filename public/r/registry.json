@@ -10,7 +10,8 @@
       "description": "The Lifeline component system — horizontal and scroll-scrubbed on desktop, vertical on mobile, floating photo cards, hover media, a tap-to-expand lightbox, and a cinematic intro. Works as a full page or as a module inside one: mode=\"embed\" scrubs the rail with the wheel and hands scrolling back to the page at either end.",
       "dependencies": [
         "lucide-react",
-        "next-themes"
+        "next-themes",
+        "geist"
       ],
       "registryDependencies": [
         "utils"
@@ -172,8 +173,13 @@
         },
         ".lifeline-labels.is-pinned": {
           "z-index": "20"
+        },
+        ".lifeline-typeset": {
+          "--lifeline-font": "var(--font-geist-sans, \"Geist\"), \"Geist Fallback\", ui-sans-serif, system-ui, sans-serif",
+          "font-family": "var(--lifeline-font)"
         }
-      }
+      },
+      "docs": "Mount it with markers from defineLifeline (lib/lifeline-data.ts):\n\n  import { Lifeline } from \"@/components/lifeline\"\n  import { sodas } from \"@/lib/lifelines/sodas\"\n\n  export default function Page() {\n    return (\n      <main className=\"flex h-dvh flex-col\">\n        <div className=\"min-h-0 flex-1 overflow-y-auto md:overflow-hidden\">\n          <Lifeline markers={sodas.markers} birthYear={sodas.birthYear} mode=\"page\" />\n        </div>\n      </main>\n    )\n  }\n\nThe vertical (mobile) layout measures itself against the nearest ancestor whose overflow-y is auto or scroll, so give it one — the wrapper above does. Desktop scrubs sideways and wants no scroller of its own.\n\nTypography: the timeline typesets itself in Geist via .lifeline-typeset rather than inheriting font-sans. Load Geist in your root layout — import { GeistSans } from \"geist/font/sans\" and put GeistSans.variable on <html> — or set --lifeline-font to use your own face."
     },
     {
       "name": "shell",

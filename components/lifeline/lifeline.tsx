@@ -8,6 +8,14 @@ import { LifelineVertical } from "./lifeline-vertical"
 import { LIFELINE_MOBILE_BREAKPOINT } from "./lifeline-layout"
 import type { LifelineProps } from "./types"
 
+/**
+ * `lifeline-typeset` carries the timeline's own font stack (Geist, falling
+ * back to the system sans) rather than inheriting the host's `font-sans`.
+ * A shadcn init writes a self-referential `--font-sans` into the theme
+ * block, which resolves to the browser serif, and the timeline is dense
+ * enough that the wrong face is the first thing you notice. Override
+ * `--lifeline-font` to typeset it in something else.
+ */
 export function Lifeline(props: LifelineProps) {
   const [isMobile, setIsMobile] = useState<boolean | null>(null)
 
@@ -41,8 +49,11 @@ export function Lifeline(props: LifelineProps) {
         <div
           className={
             props.mode === "embed"
-              ? cn("h-full overflow-y-auto pt-5", props.className)
-              : "pt-5"
+              ? cn(
+                  "lifeline-typeset h-full overflow-y-auto pt-5",
+                  props.className,
+                )
+              : "lifeline-typeset pt-5"
           }
         >
           <LifelineVertical {...props} />
@@ -55,7 +66,7 @@ export function Lifeline(props: LifelineProps) {
     <LifelineFireworksProvider>
       <LifelineDesktop
         {...props}
-        className={cn("pt-5", props.className)}
+        className={cn("lifeline-typeset pt-5", props.className)}
       />
     </LifelineFireworksProvider>
   )
