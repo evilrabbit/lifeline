@@ -133,9 +133,23 @@ export function LifelineDesktop({
           className="relative flex w-max items-start will-change-transform [--lifeline-people-top:calc(14.5rem+40px)] [--lifeline-rail:5rem]"
           style={{ width: trackWidth }}
         >
+          {/*
+            LIFELINE_STICKY_SHIELD_WIDTH reserves this column at the head of
+            the track, and the column has to actually paint it: once the
+            track scrolls, marker text passes underneath and would otherwise
+            read straight through "Age" and "Years".
+
+            `bg-white dark:bg-black` to match the framing the shell puts
+            around this — reframe the page on a different surface and this
+            wants overriding with it. The transition is not decoration
+            either: without it the shield snaps between the two while the
+            page behind it is still crossfading, which flashes a hard box
+            for the length of a theme switch. 300ms on the default curve is
+            what `LifelineShell` fades on, so the two move as one.
+          */}
           <div
             ref={labelsRef}
-            className="lifeline-labels shrink-0 will-change-transform"
+            className="lifeline-labels shrink-0 bg-white transition-colors duration-300 will-change-transform dark:bg-black"
             style={{ width: LIFELINE_STICKY_SHIELD_WIDTH }}
           >
             <div className={cn(showIntro && "lifeline-labels-intro")}>
