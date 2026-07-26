@@ -14,7 +14,10 @@ function getScrollParent(element: HTMLElement | null): HTMLElement | null {
     node = node.parentElement
   }
 
-  return null
+  // Nothing on the way up scrolls, so the document does — which is the
+  // ordinary case for a page-mode timeline in a page that just scrolls.
+  // Returning null here left the whole rail `invisible` with no error.
+  return (document.scrollingElement as HTMLElement | null) ?? null
 }
 
 interface LifelineVerticalScrollOptions {

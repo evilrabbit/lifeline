@@ -432,8 +432,10 @@ export function useLifelineScroll(
   }, [markerCount])
 
   useLayoutEffect(() => {
+    // A timeline short enough to fit its stage measures max = 0. It still has
+    // to be shown — gating readiness on a scrollable track left any small
+    // timeline permanently `invisible`.
     const max = measureLayout()
-    if (max <= 0) return
 
     if (!initialized.current) {
       // A skipped intro parks the rail where the intro would have settled
@@ -495,7 +497,17 @@ export function useLifelineScroll(
       const max = maxTranslate.current
 
       if (max <= 0) {
-        introScrollId.current = requestAnimationFrame(step)
+        // Nothing to travel: a timeline that fits its stage has no rail to
+        // sweep. Waiting for one spun this loop forever and left the intro
+        // lock on, so run the intro out where it already is — the markers
+        // and labels still get their fade, there is just no journey.
+        if (!introStartedRef.current) {
+          introStartedRef.current = true
+          introScrollStart.current = now
+          onIntroScrollStartRef.current?.()
+        }
+        sectionRef.current?.style.setProperty("--lifeline-intro-progress", "1")
+        introScrollId.current = 0
         return
       }
 
@@ -634,8 +646,9 @@ export function useLifelineScroll(
     }
 
     const measure = () => {
+      // max === 0 is a legitimate measurement — a timeline that fits — so it
+      // must not skip the ready flag either.
       const max = measureLayout()
-      if (max <= 0) return
 
       translatePx.current = clamp(translatePx.current, 0, max)
 
