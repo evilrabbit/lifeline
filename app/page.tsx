@@ -1,4 +1,3 @@
-import Link from "next/link"
 import { Lifeline, LifelineLegend } from "@/components/lifeline"
 import {
   LifelineFooter,
@@ -22,12 +21,8 @@ export default function Home() {
         logo={<RabbitLogo className="h-6 w-6" />}
         logoLabel="Evil Rabbit — Lifeline"
       >
-        <Link
-          href="/embed"
-          className="text-sm text-zinc-500 transition-colors duration-300 hover:text-black dark:hover:text-white"
-        >
-          Embedded
-        </Link>
+        {/* The /embed demo is unlisted for now — the route still works,
+            it just isn't linked from here yet. */}
         <a
           href="https://github.com/evilrabbit/lifeline"
           target="_blank"
