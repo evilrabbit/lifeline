@@ -302,7 +302,13 @@ export function LifelineVertical({
   markers,
   birthYear,
   title = "Lifeline",
+  mode = "auto",
 }: LifelineProps) {
+  // Only an explicit `mode` embeds the vertical layout. `"auto"` measures
+  // scrollability on desktop, but the mobile layout *is* a vertical
+  // scroller inside a scrolling stage, so that test would read every
+  // full-page timeline as embedded and drop its intro.
+  const isEmbed = mode === "embed"
   const heights = useMemo(
     () =>
       markers.map((marker, index) =>
@@ -345,9 +351,12 @@ export function LifelineVertical({
   const { sectionRef, setEntryRef, isLayoutReady } = useLifelineVerticalScroll(
     markers.length,
     {
+      isEmbed,
       introLocked: isIntroAnimating,
       introAnimating: isIntroAnimating,
-      introSkipped: !intro.shouldPlay,
+      // Embedded, the sweep would play out unseen below the fold — and
+      // lock the module's own scroller while doing it.
+      introSkipped: !intro.shouldPlay || isEmbed,
       introRailMs: intro.railDuration,
       introGetTrackProgress: intro.getTrackProgressAtTime,
       onIntroScrollStart: intro.startIntroTimer,
@@ -355,7 +364,7 @@ export function LifelineVertical({
     },
   )
 
-  const showIntro = isIntroAnimating && isLayoutReady
+  const showIntro = isIntroAnimating && isLayoutReady && !isEmbed
   const revealOnScroll = markers.length > MAX_ARMED_ENTRIES
   const animateEntries = showIntro && !revealOnScroll
 

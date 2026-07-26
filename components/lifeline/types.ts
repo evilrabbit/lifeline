@@ -89,9 +89,24 @@ export interface LifelineLegendItem {
   label: string
 }
 
+/**
+ * How the timeline relates to the page around it.
+ *
+ * - `"page"` — the Lifeline *is* the page. It owns the wheel and the
+ *   arrow keys, and nothing scrolls behind it.
+ * - `"embed"` — the Lifeline is one module in a scrolling page. Wheel
+ *   over it scrubs the rail, and at either end of the rail the wheel is
+ *   handed back so the page carries on scrolling.
+ * - `"auto"` — measured at runtime: page mode only when the timeline
+ *   covers most of the viewport *and* there is nothing behind it left to
+ *   scroll. Anything else is treated as embedded.
+ */
+export type LifelineMode = "auto" | "page" | "embed"
+
 export interface LifelineProps {
   markers: LifelineMarker[]
   birthYear: number
   className?: string
   title?: string
+  mode?: LifelineMode
 }

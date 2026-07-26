@@ -18,6 +18,12 @@ function getScrollParent(element: HTMLElement | null): HTMLElement | null {
 }
 
 interface LifelineVerticalScrollOptions {
+  /**
+   * Embedded, the timeline opens at its start rather than where a skipped
+   * intro would have settled it — the reader is arriving at a module in a
+   * page, not returning to a timeline that already played.
+   */
+  isEmbed?: boolean
   introLocked?: boolean
   introAnimating?: boolean
   introSkipped?: boolean
@@ -39,6 +45,7 @@ export function useLifelineVerticalScroll(
   const introLockedRef = useRef(options.introLocked ?? false)
   const introAnimatingRef = useRef(options.introAnimating ?? false)
   const introSkippedRef = useRef(options.introSkipped ?? false)
+  const isEmbedRef = useRef(options.isEmbed ?? false)
   const onIntroSettleCompleteRef = useRef(options.onIntroSettleComplete)
   const onIntroScrollStartRef = useRef(options.onIntroScrollStart)
   const introGetTrackProgressRef = useRef(options.introGetTrackProgress)
@@ -52,6 +59,7 @@ export function useLifelineVerticalScroll(
   introLockedRef.current = options.introLocked ?? false
   introAnimatingRef.current = options.introAnimating ?? false
   introSkippedRef.current = options.introSkipped ?? false
+  isEmbedRef.current = options.isEmbed ?? false
   onIntroSettleCompleteRef.current = options.onIntroSettleComplete
   onIntroScrollStartRef.current = options.onIntroScrollStart
   introGetTrackProgressRef.current = options.introGetTrackProgress
@@ -102,7 +110,8 @@ export function useLifelineVerticalScroll(
     if (!scrollParent) return
 
     if (!initialized.current) {
-      scrollParent.scrollTop = introSkippedRef.current ? max : 0
+      scrollParent.scrollTop =
+        introSkippedRef.current && !isEmbedRef.current ? max : 0
       initialized.current = true
     }
 

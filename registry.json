@@ -7,7 +7,7 @@
       "name": "lifeline",
       "type": "registry:block",
       "title": "Lifeline",
-      "description": "The Lifeline component system — horizontal and scroll-scrubbed on desktop, vertical on mobile, floating photo cards, hover media, a tap-to-expand lightbox, and a cinematic intro.",
+      "description": "The Lifeline component system — horizontal and scroll-scrubbed on desktop, vertical on mobile, floating photo cards, hover media, a tap-to-expand lightbox, and a cinematic intro. Works as a full page or as a module inside one: mode=\"embed\" scrubs the rail with the wheel and hands scrolling back to the page at either end.",
       "dependencies": [
         "lucide-react",
         "next-themes"

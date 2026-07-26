@@ -20,6 +20,7 @@ export function LifelineDesktop({
   birthYear,
   className,
   title = "Lifeline",
+  mode = "auto",
 }: LifelineProps) {
   const widths = useMemo(
     () =>
@@ -55,18 +56,30 @@ export function LifelineDesktop({
   const intro = useLifelineIntro(widths)
   const isIntroAnimating = intro.shouldPlay && intro.isPlaying
 
-  const { sectionRef, trackRef, labelsRef, setMarkerRef, isLayoutReady } =
-    useLifelineScroll(markers.length, {
-      introLocked: isIntroAnimating,
-      introAnimating: isIntroAnimating,
-      introSkipped: !intro.shouldPlay,
-      introRailMs: intro.railDuration,
-      introGetTrackProgress: intro.getTrackProgressAtTime,
-      onIntroScrollStart: intro.startIntroTimer,
-      onIntroSettleComplete: intro.completeIntro,
-    })
+  const {
+    sectionRef,
+    trackRef,
+    labelsRef,
+    setMarkerRef,
+    isLayoutReady,
+    isEmbed,
+    introArmed,
+  } = useLifelineScroll(markers.length, {
+    mode,
+    introLocked: isIntroAnimating,
+    introAnimating: isIntroAnimating,
+    introSkipped: !intro.shouldPlay,
+    introRailMs: intro.railDuration,
+    introGetTrackProgress: intro.getTrackProgressAtTime,
+    onIntroScrollStart: intro.startIntroTimer,
+    onIntroSettleComplete: intro.completeIntro,
+  })
 
-  const showIntro = isIntroAnimating && isLayoutReady
+  // Embedded, the open waits for the module to come into view: the marker
+  // fades are CSS animations that start the moment their class lands, so
+  // applying it early would spend them below the fold.
+  const introWaitingInView = isEmbed && intro.shouldPlay && !introArmed
+  const showIntro = isIntroAnimating && isLayoutReady && !introWaitingInView
 
   const trackWidth =
     LIFELINE_STICKY_SHIELD_WIDTH + widths.reduce((sum, width) => sum + width, 0)
@@ -79,16 +92,42 @@ export function LifelineDesktop({
   return (
     <section
       ref={sectionRef}
+      data-lifeline-mode={isEmbed ? "embed" : "page"}
+      // Embedded, the module needs a tab stop to be operable at all — a
+      // page-mode lifeline is reached just by scrolling to it.
+      tabIndex={isEmbed ? 0 : undefined}
       className={cn(
         "relative h-full min-h-0 select-none overflow-hidden [&_a]:cursor-pointer",
-        !isLayoutReady && "invisible",
+        // `pan-y` lets the browser start a vertical page scroll on the
+        // first frame instead of waiting on the JS axis lock; horizontal
+        // panning stays ours.
+        isEmbed &&
+          "touch-pan-y focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+        // Hold it blank rather than showing a settled timeline that then
+        // resets itself to play the intro. Below the fold there is nothing
+        // to see anyway, and the arming margin means it fills in before it
+        // reaches the reader.
+        (!isLayoutReady || introWaitingInView) && "invisible",
         className,
       )}
       aria-label={title}
       style={showIntro ? introStyle : undefined}
     >
       <LifelineHoverImageProvider preload={hoverImages}>
-      <div className="flex h-full items-center overflow-hidden">
+      {/*
+        Centered — but `safe center` where the browser understands it, which
+        matters once the height is the consumer's to choose. A track taller
+        than its box would otherwise overflow equally top and bottom, and
+        since the section clips, the first thing lost is the row nearest the
+        top: the Age/Years label column and the year labels. `safe` falls
+        back to start-alignment exactly in that case, so the labels and the
+        rail stay put and only the tail of a long column clips. Declared
+        inline so browsers without it simply keep the `items-center` class.
+      */}
+      <div
+        className="flex h-full items-center overflow-hidden"
+        style={isEmbed ? { alignItems: "safe center" } : undefined}
+      >
         <div
           ref={trackRef}
           className="relative flex w-max items-start will-change-transform [--lifeline-people-top:calc(14.5rem+40px)] [--lifeline-rail:5rem]"

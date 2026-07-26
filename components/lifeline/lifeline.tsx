@@ -30,7 +30,21 @@ export function Lifeline(props: LifelineProps) {
   if (isMobile) {
     return (
       <LifelineFireworksProvider>
-        <div className="pt-5">
+        {/*
+          Embedded, the vertical timeline gets its own bounded scroller:
+          the consumer's height lands here, and this element becomes the
+          scroll parent the vertical hook looks for. Native overscroll
+          chaining then releases to the page at either end, which is
+          exactly the embed contract. Page mode is left alone — the host's
+          own scroller owns it there, and `h-full` would only fight it.
+        */}
+        <div
+          className={
+            props.mode === "embed"
+              ? cn("h-full overflow-y-auto pt-5", props.className)
+              : "pt-5"
+          }
+        >
           <LifelineVertical {...props} />
         </div>
       </LifelineFireworksProvider>
