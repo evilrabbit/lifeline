@@ -9,7 +9,7 @@ import {
   useRef,
   type ReactNode,
 } from "react"
-import { clamp } from "./lifeline-utils"
+import { clamp, snapToDevicePixel } from "./lifeline-utils"
 import type { LifelineEventImage } from "./types"
 
 /** Tweak these */
@@ -110,9 +110,23 @@ export function LifelineHoverImageProvider({
     const targetTilt = clamp(dx * TILT_FACTOR, -TILT_MAX_DEG, TILT_MAX_DEG)
     s.tilt += (targetTilt - s.tilt) * TILT_EASE
 
-    container.style.transform = `translate3d(${s.x + CURSOR_OFFSET_X}px, ${
-      s.y - CURSOR_OFFSET_Y
-    }px, 0) rotate(${s.tilt}deg)`
+    // The ease is asymptotic — it never actually arrives, so the card
+    // rests on a fractional offset with a residual tilt and the browser
+    // resamples it soft. Land it: snap sub-threshold deltas to done.
+    if (
+      Math.abs(s.targetX - s.x) < 0.1 &&
+      Math.abs(s.targetY - s.y) < 0.1 &&
+      Math.abs(s.tilt) < 0.05
+    ) {
+      s.x = s.targetX
+      s.y = s.targetY
+      s.tilt = 0
+    }
+
+    const rotate = s.tilt === 0 ? "" : ` rotate(${s.tilt}deg)`
+    container.style.transform = `translate3d(${snapToDevicePixel(
+      s.x + CURSOR_OFFSET_X,
+    )}px, ${snapToDevicePixel(s.y - CURSOR_OFFSET_Y)}px, 0)${rotate}`
 
     if (s.visible) {
       s.frame = requestAnimationFrame(step)
