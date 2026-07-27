@@ -4,6 +4,16 @@ export function clamp(value: number, min: number, max: number) {
   return Math.min(max, Math.max(min, value))
 }
 
+/**
+ * A composited layer resting on a fractional offset resamples its whole
+ * subtree — text goes soft. Snapping to the device pixel grid (not whole
+ * CSS pixels) keeps half-pixel steps on retina, so motion stays smooth.
+ */
+export function snapToDevicePixel(value: number) {
+  const dpr = window.devicePixelRatio || 1
+  return Math.round(value * dpr) / dpr
+}
+
 export function hasMarkerContent(marker: LifelineMarker) {
   return (
     marker.events.length > 0 ||

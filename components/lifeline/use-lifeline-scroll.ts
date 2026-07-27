@@ -5,7 +5,7 @@ import {
   LIFELINE_STICKY_LEFT,
   LIFELINE_STICKY_SHIELD_WIDTH,
 } from "./lifeline-labels"
-import { clamp } from "./lifeline-utils"
+import { clamp, snapToDevicePixel } from "./lifeline-utils"
 import type { LifelineMode } from "./types"
 
 const FADE_ZONE = 200
@@ -225,8 +225,12 @@ export function useLifelineScroll(
       if (!labels) return { isSticky, labelLeft }
 
       if (isSticky) {
+        // Derived from the track's snapped offset so the two transforms
+        // cancel to exactly LIFELINE_STICKY_LEFT — the pinned labels
+        // must not drift a fraction against the snapped track.
         const labelExtra =
-          LIFELINE_STICKY_LEFT - startInset.current + translate
+          LIFELINE_STICKY_LEFT -
+          snapToDevicePixel(startInset.current - translate)
         labels.style.transform = `translate3d(${labelExtra}px, 0, 0)`
         labels.classList.add("is-pinned")
       } else {
@@ -307,7 +311,11 @@ export function useLifelineScroll(
       translatePx.current = next
 
       if (trackRef.current) {
-        trackRef.current.style.transform = `translate3d(${startInset.current - next}px, 0, 0)`
+        // Snapped only at the DOM boundary — translatePx stays float so
+        // wheel/drag/settle physics never accumulate rounding.
+        trackRef.current.style.transform = `translate3d(${snapToDevicePixel(
+          startInset.current - next,
+        )}px, 0, 0)`
       }
 
       applyLabelSticky(next)
