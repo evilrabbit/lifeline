@@ -74,7 +74,7 @@ export function defineLifeline(input: DefineLifelineInput): LifelineRecord {
   for (let year = input.birthYear; year <= lastYear; year++) {
     const milestone = milestones[year]
     const birthdayPending =
-      year === today.getFullYear() &&
+      year === LIFELINE_CURRENT_YEAR &&
       input.birthday &&
       (today.getMonth() + 1 < input.birthday.month ||
         (today.getMonth() + 1 === input.birthday.month &&
